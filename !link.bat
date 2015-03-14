@@ -1,1 +1,2 @@
 C:\bin\rt11\rt11.exe LINK MAIN,LEVELS /MAP:OUTPUT.MAP
+@if exist OUTPUT.MAP type OUTPUT.MAP
