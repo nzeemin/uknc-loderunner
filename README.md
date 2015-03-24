@@ -7,6 +7,6 @@ Screenshot of the ported version:
 
 Original BK version:
 
-![](original/screen-menubw.png)
+![](original/screen-menu-bw.png)
 
 ![](original/screen-level.png)

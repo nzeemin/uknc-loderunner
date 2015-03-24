@@ -21,17 +21,34 @@ MENUDR:	; Рисуем экран меню
 	MOV	#MENUSC, R1	; Строка главного меню
 	CALL	PRINT
 	CALL	PAUSE		; Пауза чтобы можно было дальше рисовать
+	CALL	HLINES		; Нарисовать горизонтальные линии
+	MOV	#MENUS2, R1	; начало строк меню
+	MOV	#44, R2		; верхняя строка меню
+	MOV	#4, R5		; количество пунктов меню
+10$:	; Цикл рисования пунктов меню
+	MOV	#33, R0		; Esc
+	CALL	TTYOUT
+	MOV	#131, R0	; Курсор в позицию
+	CALL	TTYOUT
+	MOV	R2, R0		; строка
+	CALL	TTYOUT
+	MOV	#51, R0		; колонка
+	CALL	TTYOUT
+	CALL	PRINT
+	INC	R2
+	SOB	R5, 10$		; повторяем
+
+	CALL	SPRSDR		; Нарисовать спрайты
+; Помещаем курсор к текущему пункту меню
 	MOV	#33, R0		; Esc
 	CALL	TTYOUT
 	MOV	#131, R0	; Курсор в позицию
 	CALL	TTYOUT
 	MOV	MENUP, R0
-	ADD	#42, R0		; строка
+	ADD	#43, R0		; строка
 	CALL	TTYOUT
-	MOV	#41, R0		; колонка
+	MOV	#47, R0		; колонка
 	CALL	TTYOUT
-	CALL	HLINES		; Нарисовать горизонтальные линии
-	CALL	SPRSDR		; Нарисовать спрайты
 
 Z01404:
 	CALL	WTKEY		; Ожидание нажатия клавиши
@@ -87,7 +104,7 @@ Z01552:	BR	Z01404
 ; Подпрограмма: показ спрайтов чтобы оценить цветовую схему
 SPRSDR:
 	MOV	#Z13540, R1	; Начало блока из 8-ми спрайтов для рисования лабиринта
-	MOV	#110237, R3
+	MOV	#112264, R3	; адрес на экране
 	MOV	#8., R5
 1$:	; Draw sprite: R1 = sprite address, R3 = screen address
 	MOV	#10., R2
@@ -99,35 +116,7 @@ SPRSDR:
 	SOB	R5, 1$
 	RETURN
 
-
-MENUSC:	; Строка подготовки экрана меню
-	.BYTE	33,246,62	; Формат экрана 40x24
-	.BYTE	33,240,67	; Цвет символа
-	.BYTE	33,241,60	; Цвет знакоместа 0
-	.BYTE	33,242,60	; Цвет фона 0
-	.BYTE	14		; Clear screen
-	.BYTE	33,131,40,51	; Курсор в позицию
-	.ASCII	/L O D E    R U N N E R/<25><25>
-	.BYTE	33,240,63	; Цвет символа
-	.BYTE	33,131,43,43	; Курсор в позицию
-	.ASCII	/1 GAME/<25>
-	.ASCII	/   2 LEVEL/<25>
-	.ASCII	/   3 COLOR/<25>
-	.ASCII	/   4 EXIT/
-	.BYTE	0
-	.EVEN
-
-EXITSC:	; Строка очистки экрана перед выходом
-	.BYTE	33,246,061	; Формат экрана 80x24
-	.BYTE	33,240,67	; Цвет символа
-	.BYTE	33,241,61	; Цвет знакоместа 1
-	.BYTE	33,242,61	; Цвет фона 1
-	.BYTE	14		; Очистить экран
-	.ASCII	/BYE!/
-	.BYTE	0
-	.EVEN
-
-	.BLKW	44		; ADDRESS ALIGNMENT GAP
+	.BLKW	100		; ADDRESS ALIGNMENT GAP
 ;
 ; Блок переменных
 ;
@@ -170,6 +159,36 @@ Z01776:	.WORD	0		; Текущее количество очков
 
 MENUP:	.WORD	1		; Текущий пункт меню
 COLOR:	.WORD	0		; Текущая цветовая схема
+
+MENUSC:	; Строка подготовки экрана меню
+	.BYTE	33,246,62	; Формат экрана 40x24
+	.BYTE	33,240,67	; Цвет символа
+	.BYTE	33,241,60	; Цвет знакоместа 0
+	.BYTE	33,242,60	; Цвет фона 0
+	.BYTE	14		; Clear screen
+	.BYTE	33,131,40,51	; Курсор в позицию
+	.ASCII	/L O D E    R U N N E R/<25><25>
+	.BYTE	33,131,61,41	; Курсор в позицию
+	.ASCII	/BK version      Markov A (Action corp)/<25>
+	.ASCII	/  UKNC port 2015 Nikita Zimin/<25>
+	.BYTE	33,240,63	; Цвет символа
+	.BYTE	0
+MENUS2:
+	.ASCIZ	/1 GAME/
+	.ASCIZ	/2 LEVEL/
+	.ASCIZ	/3 COLOR/
+	.ASCIZ	/4 EXIT/
+	.EVEN
+
+EXITSC:	; Строка очистки экрана перед выходом
+	.BYTE	33,246,061	; Формат экрана 80x24
+	.BYTE	33,240,67	; Цвет символа
+	.BYTE	33,241,61	; Цвет знакоместа 1
+	.BYTE	33,242,61	; Цвет фона 1
+	.BYTE	14		; Очистить экран
+	.ASCII	/BYE!/
+	.BYTE	0
+	.EVEN
 
 ; Подпрограмма: Ожидание символа с клавиатуры: R0 = полученный символ
 WTKEY:	.TTYIN			; символ в R0
@@ -222,7 +241,7 @@ GAMESC:	; Строка подготовки игрового экрана
 GAMES2:	.BYTE	33,131,66,67,0	; Курсор в место где жизни
 	.EVEN
 
-	.BLKW	677		; ADDRESS ALIGNMENT GAP
+	.BLKW	554		; ADDRESS ALIGNMENT GAP
 ; Подпрограмма подготовки экрана: очистка, рисование рамки
 Z04030::
 	MOV	#GAMESC, R1	; Строка для подготовки игрового экрана
