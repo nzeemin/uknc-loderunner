@@ -7,7 +7,8 @@ Screenshots of the ported version:
 
 ![](screenshot/current-level.png)
 
-Original BK version:
+#### Original BK version
+Disassembled and partially commented original game code: https://github.com/nzeemin/uknc-loderunner/blob/master/original/loderunner.lst
 
 ![](original/screen-menu-bw.png)
 
