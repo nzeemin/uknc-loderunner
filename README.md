@@ -13,3 +13,7 @@ Disassembled and partially commented original game code: https://github.com/nzee
 ![](original/screen-menu-bw.png)
 
 ![](original/screen-level.png)
+
+#### Article
+
+[Портирование Lode Runner с БК на УКНЦ](http://geektimes.ru/post/261074/) -- article about the porting, in Russian
