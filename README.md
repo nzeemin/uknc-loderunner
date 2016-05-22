@@ -17,3 +17,7 @@ Disassembled and partially commented original game code: https://github.com/nzee
 #### Article
 
 [Портирование Lode Runner с БК на УКНЦ](http://geektimes.ru/post/261074/) -- article about the porting, in Russian
+
+#### See Also
+
+ - [Porting the same game to NEMIGA](https://github.com/nzeemin/nemiga-loderunner)
