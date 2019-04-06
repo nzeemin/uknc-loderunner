@@ -16,7 +16,7 @@ Disassembled and partially commented original game code: https://github.com/nzee
 
 #### Article
 
-[Портирование Lode Runner с БК на УКНЦ](http://geektimes.ru/post/261074/) -- article about the porting, in Russian
+[Портирование Lode Runner с БК на УКНЦ](https://habr.com/ru/post/383497/) – article about the porting, in Russian
 
 #### See Also
 
